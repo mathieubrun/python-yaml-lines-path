@@ -1,0 +1,13 @@
+__pycache__/
+.coverage
+.DS_Store
+.env
+.ruff_cache/
+.pytest_cache/
+.venv
+*.egg-info
+*.py[oc]
+build/
+coverage.xml
+dist/
+wheels/
