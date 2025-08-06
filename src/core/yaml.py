@@ -30,8 +30,9 @@ class YamlLinesParser:
                     self._line_map[line] = new_path
                     self._populate_line_map(item, new_path)
 
-    def parse(self, line: int) -> YamlPath:
-        return ".".join(self._line_map.get(line, []))
+    def parse(self, line: int) -> YamlPath | None:
+        mapped = self._line_map.get(line, [])
+        return ".".join(mapped) if mapped else None
 
 
 class YamlPathEvaluator:
@@ -54,8 +55,3 @@ class YamlPathEvaluator:
                 case _:
                     raise TypeError(f"Cannot access part '{part}' in path '{path}' on a scalar value.")
         return current_obj
-
-
-class LineMapper:
-    def __init__(self, parser: YamlLinesParser, evaluator: YamlPathEvaluator):
-        pass
