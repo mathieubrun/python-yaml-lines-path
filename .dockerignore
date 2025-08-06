@@ -1,0 +1,11 @@
+__pycache__/
+.coverage
+.DS_Store
+.ruff_cache/
+.venv
+*.egg-info
+*.py[oc]
+build/
+coverage.xml
+dist/
+wheels/
