@@ -1,7 +1,7 @@
 import pytest
 from ruamel.yaml import YAML
 
-from core.yaml import PathEvaluator
+from core.yaml import YamlPathEvaluator
 
 yaml_data = YAML().load("""
 root:
@@ -15,7 +15,7 @@ root:
 """)
 
 
-class TestPathEvaluator:
+class TestYamlPathEvaluator:
     @pytest.mark.parametrize(
         "path_parts, expected_result",
         [
@@ -30,7 +30,11 @@ class TestPathEvaluator:
         ],
     )
     def test_evaluate_successful(self, path_parts, expected_result):
-        evaluator = PathEvaluator(yaml_data)
+        # arrange
+        # act
+        evaluator = YamlPathEvaluator(yaml_data)
+
+        # assert
         assert evaluator.evaluate(path_parts) == expected_result
 
     @pytest.mark.parametrize(
@@ -42,6 +46,10 @@ class TestPathEvaluator:
         ],
     )
     def test_evaluate_errors(self, path_parts, exception, match_str):
-        evaluator = PathEvaluator(yaml_data)
+        # arrange
+        evaluator = YamlPathEvaluator(yaml_data)
+
+        # act
+        # assert
         with pytest.raises(exception, match=match_str):
             evaluator.evaluate(path_parts)

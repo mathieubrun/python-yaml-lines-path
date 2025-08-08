@@ -1,59 +1,9 @@
 from pytest import mark, param
 
-from core.yaml import LinesParser
-
-yaml_simple = """root:
-    key_a: value_a
-    key_b: value_b
-"""
-
-yaml_with_list = """root:
-    list:
-        - value_a
-        - value_b
-"""
-
-yaml_with_nested_list = """root:
-    list:
-        - object_a:
-            key_a: value_a
-            key_b: value_b
-        - object_b:
-            key_c: value_d
-"""
-
-yaml_full = """# a comment
-root:
-    key_a: value_a # another comment
-
-    key_b: value_b
+from core.yaml import YamlLinesParser
 
 
-    objects:
-        - object_a:
-            key_a: value_a
-            key_b: value_b
-            children:
-                - child_a
-
-                - child_b
-
-        - object_b:
-            key_c: value_d
-            complex_children:
-                - child_a:
-                    key_a: value_a
-
-                    key_b: value_b
-
-
-                - child_b:
-                    key_a: value_a
-                    key_b: value_b
-"""
-
-
-class TestLinesParser:
+class TestYamlLinesParser:
     @mark.parametrize(
         "line, expected_result",
         [
@@ -63,7 +13,18 @@ class TestLinesParser:
         ],
     )
     def test_parse_simple(self, line, expected_result):
-        assert LinesParser(yaml_simple).parse(line) == expected_result
+        # arrange
+        yaml_data = """root:
+            key_a: value_a
+            key_b: value_b
+        """
+        sut = YamlLinesParser(yaml_data)
+
+        # act
+        key = sut.parse(line)
+
+        # assert
+        assert key == expected_result
 
     @mark.parametrize(
         "line, expected_result",
@@ -75,7 +36,19 @@ class TestLinesParser:
         ],
     )
     def test_parse_list(self, line, expected_result):
-        assert LinesParser(yaml_with_list).parse(line) == expected_result
+        # arrange
+        yaml_data = """root:
+            list:
+                - value_a
+                - value_b
+        """
+        sut = YamlLinesParser(yaml_data)
+
+        # act
+        key = sut.parse(line)
+
+        # assert
+        assert key == expected_result
 
     @mark.parametrize(
         "line, expected_result",
@@ -90,7 +63,22 @@ class TestLinesParser:
         ],
     )
     def test_parse_list_nested(self, line, expected_result):
-        assert LinesParser(yaml_with_nested_list).parse(line) == expected_result
+        # arrange
+        yaml_data = """root:
+            list:
+                - object_a:
+                    key_a: value_a
+                    key_b: value_b
+                - object_b:
+                    key_c: value_d
+        """
+        sut = YamlLinesParser(yaml_data)
+
+        # act
+        key = sut.parse(line)
+
+        # assert
+        assert key == expected_result
 
     @mark.parametrize(
         "line, expected_result",
@@ -117,4 +105,41 @@ class TestLinesParser:
         ],
     )
     def test_parse_full(self, line, expected_result):
-        assert LinesParser(yaml_full).parse(line) == expected_result
+        # arrange
+        yaml_data = """# a comment
+            root:
+                key_a: value_a # another comment
+
+                key_b: value_b
+
+
+                objects:
+                    - object_a:
+                        key_a: value_a
+                        key_b: value_b
+                        children:
+                            - child_a
+
+                            - child_b
+
+                    - object_b:
+                        key_c: value_d
+                        complex_children:
+                            - child_a:
+                                key_a: value_a
+
+                                key_b: value_b
+
+
+                            - child_b:
+                                key_a: value_a
+                                key_b: value_b
+            """
+
+        sut = YamlLinesParser(yaml_data)
+
+        # act
+        key = sut.parse(line)
+
+        # assert
+        assert key == expected_result

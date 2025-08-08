@@ -1,1 +1,1 @@
-from .yaml import LinesParser
+from .yaml import YamlLinesParser

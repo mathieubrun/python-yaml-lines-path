@@ -7,7 +7,7 @@ type YamlPath = str
 type YamlPathParts = List[str]
 
 
-class LinesParser:
+class YamlLinesParser:
     def __init__(self, data: YamlData):
         yaml = YAML()
         self._yaml = yaml.load(data)
@@ -34,7 +34,7 @@ class LinesParser:
         return ".".join(self._line_map.get(line, []))
 
 
-class PathEvaluator:
+class YamlPathEvaluator:
     def __init__(self, data: object):
         self._data = data
 
@@ -57,5 +57,5 @@ class PathEvaluator:
 
 
 class LineMapper:
-    def __init__(self, parser: LinesParser, evaluator: PathEvaluator):
+    def __init__(self, parser: YamlLinesParser, evaluator: YamlPathEvaluator):
         pass
